@@ -7,13 +7,33 @@ geotab.addin.tripProfile = () => {
   /* Scope variables */
   let api; // Ref https://github.com/Geotab/mg-api-js
   let state;
+  let angularAppInitCheckInterval;
 
   /**
    * Initialize the add-in
    */
   let initialize = () => {
-      this.title = "tripProfile Initialized"
-      console.log(this.title);
+      console.log("Trip Profile Initialized");
+  };
+
+  /**
+   * Clears Angular Init check interval
+   */
+  let clearAngularAppinitCheck = () => {
+      clearInterval(angularAppInitCheckInterval);
+  };
+
+  let onAppStart = () => {
+      api.getSession((result) => {
+          angularAppInitCheckInterval = setInterval(() => {
+              if(window.myTripProfileNgAppRef && window.myTripProfileNgAppRef.zone){
+                  window.myTripProfileNgAppRef.zone.run(() => { window.myTripProfileNgAppRef.loadGeoTabSDKData(result.database,result.sessionId,result.database); });
+                  clearAngularAppinitCheck();
+              }else{
+                  console.log("Trip Profile app not ready yet, checking again");
+              }
+          },500)
+      });
   };
 
   /**
@@ -21,42 +41,16 @@ geotab.addin.tripProfile = () => {
   * App Logic
   */
   let render = () => {
-        this.title ="tripProfile Rendered";
-        console.log(this.title);
-        // api.call('Get', {
-        //     typeName: 'User'
-        // }, function (result) {
-        //     if (result) {
-        //         console.log("USERS Result ",result);
-        //     }
-        // }, function (err) {
-        //     console.error("USERS ERR ",err);
-        // });
-        const startApplication = () => {        
-            api.getSession(function (result) {
-                console.log("Session ",result.sessionId);
-                console.log("Session ",result.userName);
-                console.log("Session ",result.database);
-                var intervalId = setInterval(() => {
-                    if(window.myTripProfileNgAppRef && window.myTripProfileNgAppRef.zone){
-                        window.myTripProfileNgAppRef.zone.run(() => { window.myDriverProfileNgAppRef.loadGeoTabSDKData(result.database,result.sessionId,result.database); });
-                        clearInterval(intervalId);
-                    }else{
-                        console.log("tripProfile app not ready yet, checking again");
-                    }
-                },500)
-            }); 
-        };
-         
-        startApplication();
+        console.log("Trip Profile Rendered");
+        onAppStart();
   }
 
   /**
    * Aborts
    */
   let abort = () => {
-      this.title ="tripProfile Aborted";
-      console.log(this.title);
+      console.log("Trip Profile Aborted");
+      clearAngularAppinitCheck();
   };
 
   return {
@@ -94,7 +88,6 @@ geotab.addin.tripProfile = () => {
       * Use this function to save state or commit changes to a datastore or release memory.
       */
       blur() {
-          console.log("Left tripProfile");
           abort();
       }
   };
