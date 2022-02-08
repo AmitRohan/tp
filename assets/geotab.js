@@ -1,7 +1,7 @@
 /**
 * @returns {{initialize: Function, focus: Function, blur: Function}}
 */
-geotab.addin.driverList = () => {
+geotab.addin.tripProfile = () => {
   'use strict';
 
   /* Scope variables */
@@ -30,8 +30,8 @@ geotab.addin.driverList = () => {
 
       api.getSession((result) => {
           angularAppInitCheckInterval = setInterval(() => {
-              if(window.myDriverListNgAppRef && window.myDriverListNgAppRef.zone){
-                  window.myDriverListNgAppRef.zone.run(() => { window.myDriverListNgAppRef.loadGeoTabSDKData(result.database,result.sessionId,result.database); });
+              if(window.myTripProfileNgAppRef && window.myTripProfileNgAppRef.zone){
+                  window.myTripProfileNgAppRef.zone.run(() => { window.myTripProfileNgAppRef.loadGeoTabSDKData(result.database,result.sessionId,result.database); });
                   clearAngularAppinitCheck();
               }else{
                   console.log("trip profile app not ready yet, checking again");
