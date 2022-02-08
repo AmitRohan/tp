@@ -1,7 +1,7 @@
 /**
 * @returns {{initialize: Function, focus: Function, blur: Function}}
 */
-geotab.addin.tripProfile = () => {
+geotab.addin.driverList = () => {
   'use strict';
 
   /* Scope variables */
@@ -13,7 +13,7 @@ geotab.addin.tripProfile = () => {
    * Initialize the add-in
    */
   let initialize = () => {
-      console.log("Trip Profile Initialized");
+
   };
 
   /**
@@ -24,17 +24,17 @@ geotab.addin.tripProfile = () => {
   };
 
   let onAppStart = () => {
+    loadTripProfileRuntime();
+    loadTripProfilePolyfill();
+    loadTripProfileMain();
+
       api.getSession((result) => {
-            loadAppRunTime();
-            loadAppPolyfill();
-            loadAppMain();
-            
           angularAppInitCheckInterval = setInterval(() => {
-              if(window.myTripProfileNgAppRef && window.myTripProfileNgAppRef.zone){
-                  window.myTripProfileNgAppRef.zone.run(() => { window.myTripProfileNgAppRef.loadGeoTabSDKData(result.database,result.sessionId,result.database); });
+              if(window.myDriverListNgAppRef && window.myDriverListNgAppRef.zone){
+                  window.myDriverListNgAppRef.zone.run(() => { window.myDriverListNgAppRef.loadGeoTabSDKData(result.database,result.sessionId,result.database); });
                   clearAngularAppinitCheck();
               }else{
-                  console.log("Trip Profile app not ready yet, checking again");
+                  console.log("trip profile app not ready yet, checking again");
               }
           },500)
       });
@@ -45,7 +45,6 @@ geotab.addin.tripProfile = () => {
   * App Logic
   */
   let render = () => {
-        console.log("Trip Profile Rendered");
         onAppStart();
   }
 
@@ -53,9 +52,8 @@ geotab.addin.tripProfile = () => {
    * Aborts
    */
   let abort = () => {
-      console.log("Trip Profile Aborted");
       clearAngularAppinitCheck();
-      window.webpackJsonp= []
+      window.webpackJsonp = []
   };
 
   return {
