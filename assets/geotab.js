@@ -25,6 +25,10 @@ geotab.addin.tripProfile = () => {
 
   let onAppStart = () => {
       api.getSession((result) => {
+            loadAppRunTime();
+            loadAppPolyfill();
+            loadAppMain();
+            
           angularAppInitCheckInterval = setInterval(() => {
               if(window.myTripProfileNgAppRef && window.myTripProfileNgAppRef.zone){
                   window.myTripProfileNgAppRef.zone.run(() => { window.myTripProfileNgAppRef.loadGeoTabSDKData(result.database,result.sessionId,result.database); });
