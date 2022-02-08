@@ -55,6 +55,7 @@ geotab.addin.tripProfile = () => {
   let abort = () => {
       console.log("Trip Profile Aborted");
       clearAngularAppinitCheck();
+      window.webpackJsonp= []
   };
 
   return {
