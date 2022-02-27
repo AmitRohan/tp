@@ -24,6 +24,8 @@ geotab.addin.tripProfile = () => {
   };
 
   let onAppStart = () => {
+    localStorage.setItem("driverData","");
+
     loadTripProfileRuntime();
     loadTripProfilePolyfill();
     loadTripProfileMain();
