@@ -33,7 +33,7 @@ geotab.addin.tripProfile = () => {
       api.getSession((result) => {
           angularAppInitCheckInterval = setInterval(() => {
               if(window.myTripProfileNgAppRef && window.myTripProfileNgAppRef.zone){
-                  window.myTripProfileNgAppRef.zone.run(() => { window.myTripProfileNgAppRef.loadGeoTabSDKData(result.database,result.sessionId,result.database); });
+                  window.myTripProfileNgAppRef.zone.run(() => { window.myTripProfileNgAppRef.loadGeoTabSDKData(result.userName,result.sessionId,result.database); });
                   clearAngularAppinitCheck();
               }else{
                   console.log("trip profile app not ready yet, checking again");
