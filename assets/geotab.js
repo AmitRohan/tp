@@ -37,6 +37,7 @@ geotab.addin.drivers = () => {
         api.getSession((result) => {
             var groupIds = state.getGroupFilter().map(_ => _.id);
             angularAppInitCheckInterval = setInterval(() => {
+                console.log("st",state);
                 if(window.myNgAppRef && window.myNgAppRef){
                     window.myNgAppRef.loadGeoTabSDKData(result.userName,result.sessionId,result.database,groupIds,state);
                     clearAngularAppinitCheck();
